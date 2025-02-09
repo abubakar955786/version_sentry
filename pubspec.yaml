@@ -1,8 +1,7 @@
 name: version_sentry
 description: "A Flutter package to help apps stay up-to-date by fetching the latest version from the Play Store (Android) or App Store (iOS)"
-version: 1.0.2
-author: AbuBakar <abubakar55786@gmail.com>
-homepage: https://pub.dev/
+version: 1.0.4
+repository: https://github.com/abubakar955786/version_sentry.git
 
 environment:
   sdk: ^3.5.3
