@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:version_sentry/version_sentry.dart';
 import 'package:version_sentry/version_sentry_info.dart';
+import 'package:version_sentry/version_sentry_widget/version_sentry_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -45,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
     print(versionSentryInfo?.releaseNotes); // Improve Design
     print(versionSentryInfo?.packageName); // com.example.example
     print(versionSentryInfo?.platform); // iOS
-
     setState(() {});
   }
 
@@ -61,21 +62,29 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Version Sentry"),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Current Version: ${versionSentryInfo?.currentVersion}', style: const TextStyle(fontSize: 20),),
-            Text('Store Version: ${versionSentryInfo?.storeVersion}',style: const TextStyle(fontSize: 20),),
-            Text('Needs Update: ${versionSentryInfo?.needsUpdate}',style: const TextStyle(fontSize: 20),),
-            Text('Is Major Update: ${versionSentryInfo?.isMajorUpdate}',style: const TextStyle(fontSize: 20),),
-            Text('Is Minor Update: ${versionSentryInfo?.isMinorUpdate}',style: const TextStyle(fontSize: 20),),
-            Text('Is Patch Update: ${versionSentryInfo?.isPatchUpdate}',style: const TextStyle(fontSize: 20),),
-            Text('Release Notes: ${versionSentryInfo?.releaseNotes}',style: const TextStyle(fontSize: 20),),
-            Text('Package Name: ${versionSentryInfo?.packageName}',style: const TextStyle(fontSize: 20),),
-            Text('Platform: ${versionSentryInfo?.platform}',style: const TextStyle(fontSize: 20),),
-          ],
+      body: const VersionSentryWidget(
+
+        /// Customize Your Update Style
+
+        // countryCode: "in",
+        // showPatchAndMinorUpdate: true,
+        // showMajorUpdate: true,
+        // reminderEvery : const Duration(hours: 12),
+        // updateButtonText : 'Update',
+        // cancelButtonText : 'Cancel',
+        // updateButtonStyle: const ButtonStyle(),
+        // cancelButtonStyle: const ButtonStyle(),
+        // sowStaticReleaseNotes: true,
+        // iconWidget: const Icon(CupertinoIcons.download_circle),
+        // releaseNotes: const Text("Custom release notes"),
+        // titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+        // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        // appBarColor: Theme.of(context).primaryColor.withOpacity(0.2),
+        // releaseNotesTextStyle: Theme.of(context).textTheme.bodyLarge,
+        // primacyColor: Theme.of(context).primaryColor,
+
+        child: Center(
+          child: Text('A Minor or Patch Update is\nNow Available!', style: TextStyle(fontSize: 20),textAlign: TextAlign.center,),
         ),
       ),
     );

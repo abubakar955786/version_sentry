@@ -28,3 +28,4 @@ Features
 1. Fetches the latest version from the Play Store (Android) or App Store (iOS)
 2. Provides information about the current version, store version, and update requirements
 3. Supports country-specific version fetching using country codes
+
