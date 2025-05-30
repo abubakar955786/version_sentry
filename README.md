@@ -6,7 +6,7 @@ Usage
 
 ## 📱 Screenshots
 
-| Screenshot 1                      | Screenshot 2                      |
+| Patch Update & Minor Update       | Major Update                      |
 |-----------------------------------|-----------------------------------|
 | ![](screenshots/patch_update.png) | ![](screenshots/major_update.png) |
 
