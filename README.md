@@ -6,12 +6,25 @@ Usage
 
 ## 📱 Screenshots
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png" width="250" height="360"/>
+<div>
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png"/>
   &nbsp;&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png" width="250" height="360"/>
-</p>
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png"/>
+</div>
 
+
+[//]: # (## 📱 Screenshots)
+
+[//]: # ()
+[//]: # (<p align="center">)
+
+[//]: # (  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png" width="300"/>)
+
+[//]: # (  &nbsp;&nbsp;&nbsp;)
+
+[//]: # (  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png" width="300"/>)
+
+[//]: # (</p>)
 
 
 
