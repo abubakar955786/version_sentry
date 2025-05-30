@@ -6,9 +6,9 @@ Usage
 
 ## 📱 Screenshots
 
-| Screenshot 1 | Screenshot 2 |
-|--------------|--------------|
-| ![](screenshots/screenshot1.png) | ![](screenshots/screenshot2.png) |
+| Screenshot 1                      | Screenshot 2                      |
+|-----------------------------------|-----------------------------------|
+| ![](screenshots/patch_update.png) | ![](screenshots/major_update.png) |
 
 
 -----
