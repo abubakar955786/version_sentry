@@ -7,10 +7,11 @@ Usage
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png" width="300"/>
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png" width="180" height="360"/>
   &nbsp;&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png" width="300"/>
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png" width="180" height="360"/>
 </p>
+
 
 
 
