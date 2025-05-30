@@ -2,6 +2,15 @@ Version Sentry
 ================
 A Flutter package to help apps stay up-to-date by fetching the latest version from the Play Store (Android) or App Store (iOS).
 Usage
+
+
+## 📱 Screenshots
+
+| Screenshot 1 | Screenshot 2 |
+|--------------|--------------|
+| ![](screenshots/screenshot1.png) | ![](screenshots/screenshot2.png) |
+
+
 -----
 To use Version Sentry, simply call the versionSentryInfo function and pass the country code:
 
