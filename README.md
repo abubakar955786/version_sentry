@@ -8,7 +8,8 @@ Usage
 
 | Patch Update & Minor Update       | Major Update                      |
 |-----------------------------------|-----------------------------------|
-| ![](screenshots/patch_update.png) | ![](screenshots/major_update.png) |
+| ![](https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png) | ![](https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png) |
+
 
 
 -----
