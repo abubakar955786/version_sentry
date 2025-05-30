@@ -6,11 +6,11 @@ Usage
 
 ## 📱 Screenshots
 
-<div style="display: flex; align-items: flex-start; gap: 20px;">
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png" width="300" height="360"/>
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png" width="300" height="360"/>
+<div>
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png"/>
 </div>
-
 
 
 [//]: # (## 📱 Screenshots)
