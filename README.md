@@ -6,9 +6,11 @@ Usage
 
 ## 📱 Screenshots
 
-| Patch Update & Minor Update       | Major Update                      |
-|-----------------------------------|-----------------------------------|
-| ![](https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png) | ![](https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png) |
+<p align="center">
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png" width="250"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png" width="250"/>
+</p>
 
 
 
