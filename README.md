@@ -7,9 +7,7 @@ Usage
 ## 📱 Screenshots
 
 <div>
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/patch_update.png"/>
-  &nbsp;&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/major_update.png"/>
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png"/>
 </div>
 
 
