@@ -13,15 +13,18 @@ Usage
 
 [//]: # (| ![patch_update]&#40;screenshots/patch_update.png&#41; | ![patch_update]&#40;screenshots/major_update.png&#41; |)
 
-<div style="text-align: center; margin-bottom: 20px;">
-  <span style="font-weight: bold; font-size: 18px; margin-right: 100px;">Patch & Minor Update</span>
-  <span style="font-weight: bold; font-size: 18px;">Major Update</span>
+<!-- Titles -->
+<div style="display: flex; justify-content: center; gap: 100px; font-weight: bold; font-size: 18px; margin-bottom: 10px;">
+  <div>Patch & Minor Update</div>
+  <div>Major Update</div>
 </div>
 
-
-<div>
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;" />
+<!-- Images -->
+<div style="display: flex; justify-content: center; gap: 100px;">
+  <img src="screenshots/patch_update.png" alt="Patch Update" style="max-width: 200px;" />
+  <img src="screenshots/major_update.png" alt="Major Update" style="max-width: 200px;" />
 </div>
+
 
 
 
