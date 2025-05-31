@@ -7,10 +7,11 @@ Usage
 ## 📱 Screenshots
 
 <div style="text-align: center;">
-  <div style="display: flex; justify-content: center; align-items: center; gap: 150px; margin-bottom: 20px;">
+  <div style="display: inline-flex; gap: 40px;">
     <span style="font-size: 18px; font-weight: bold;">🔍 Version Check</span>
-    <span style="font-size: 18px; font-weight: bold;">🚀 Deployment Info</span>
+  <span style="font-size: 18px; font-weight: bold;">🚀 Deployment Info</span>
   </div>
+
 
   <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;" />
 </div>
