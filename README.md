@@ -6,7 +6,7 @@ Usage
 
 ## 📱 Screenshots
 
-<div style="display: flex; justify-content: center; gap: 60px; margin-top: 20px;">
+<div style="display: flex; justify-content: center; gap: 60px; margin-top: 20px; flex-wrap: nowrap;">
   <div style="text-align: center;">
     <div style="font-weight: bold; margin-bottom: 10px;">Patch & Minor Update</div>
     <img src="screenshots/patch_update.png" alt="Patch Update" style="max-width: 200px;" />
@@ -16,6 +16,7 @@ Usage
     <img src="screenshots/major_update.png" alt="Major Update" style="max-width: 200px;" />
   </div>
 </div>
+
 
 
 
