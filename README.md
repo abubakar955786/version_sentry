@@ -6,25 +6,28 @@ Usage
 
 ## 📱 Screenshots
 
-| Patch & Minor Update                          | Major Update                                  |
-|-----------------------------------------------|-----------------------------------------------|
-| ![patch_update](screenshots/patch_update.png) | ![patch_update](screenshots/major_update.png) |
-
-[//]: # (<div style="text-align: center;">)
-
-[//]: # (  <div style="display: inline-flex; gap: 40px;">)
-
-[//]: # (    <span style="font-size: 18px; font-weight: bold;">🔍 Version Check</span>)
-
-[//]: # (  <span style="font-size: 18px; font-weight: bold;">🚀 Deployment Info</span>)
-
-[//]: # (  </div>)
-
 [//]: # ()
-[//]: # ()
-[//]: # (  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;" />)
+[//]: # (| Patch & Minor Update                          | Major Update                                  |)
 
-[//]: # (</div>)
+[//]: # (|-----------------------------------------------|-----------------------------------------------|)
+
+[//]: # (| ![patch_update]&#40;screenshots/patch_update.png&#41; | ![patch_update]&#40;screenshots/major_update.png&#41; |)
+
+<div style="text-align: center;">
+
+  <div style="display: inline-flex; gap: 40px;">
+
+    <span style="font-size: 18px; font-weight: bold;">🔍 Version Check</span>
+
+  <span style="font-size: 18px; font-weight: bold;">🚀 Deployment Info</span>
+
+  </div>
+
+
+
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;" />
+
+</div>
 
 
 
