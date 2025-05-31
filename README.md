@@ -6,9 +6,17 @@ Usage
 
 ## 📱 Screenshots
 
-| Patch & Minor Update                          | Major Update                                  |
-|-----------------------------------------------|-----------------------------------------------|
-| ![patch_update](screenshots/patch_update.png) | ![patch_update](screenshots/major_update.png) |
+<div style="display: flex; justify-content: center; gap: 60px; margin-top: 20px;">
+  <div style="text-align: center;">
+    <div style="font-weight: bold; margin-bottom: 10px;">Patch & Minor Update</div>
+    <img src="screenshots/patch_update.png" alt="Patch Update" style="max-width: 200px;" />
+  </div>
+  <div style="text-align: center;">
+    <div style="font-weight: bold; margin-bottom: 10px;">Major Update</div>
+    <img src="screenshots/major_update.png" alt="Major Update" style="max-width: 200px;" />
+  </div>
+</div>
+
 
 
 -----
