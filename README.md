@@ -6,27 +6,9 @@ Usage
 
 ## 📱 Screenshots
 
-| Preview | PageView |
-|---------|----------|
+| Patch & Minor Update                          | Major Update                                  |
+|-----------------------------------------------|-----------------------------------------------|
 | ![patch_update](screenshots/patch_update.png) | ![patch_update](screenshots/major_update.png) |
-
-
-[//]: # ()
-[//]: # (| Patch & Minor Update                          | Major Update                                  |)
-
-[//]: # (|-----------------------------------------------|-----------------------------------------------|)
-
-[//]: # (| ![patch_update]&#40;screenshots/patch_update.png&#41; | ![patch_update]&#40;screenshots/major_update.png&#41; |)
-
-
-[//]: # (<div>)
-
-[//]: # (  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;" />)
-
-[//]: # (</div>)
-
-
-
 
 
 -----
