@@ -7,7 +7,7 @@ Usage
 ## 📱 Screenshots
 
 <div style="text-align: center;">
-  <div style="display: flex; justify-content: center; gap: 50px; margin-bottom: 10px;">
+  <div style="display: flex; justify-content: center; align-items: center; gap: 150px; margin-bottom: 20px;">
     <span style="font-size: 18px; font-weight: bold;">🔍 Version Check</span>
     <span style="font-size: 18px; font-weight: bold;">🚀 Deployment Info</span>
   </div>
