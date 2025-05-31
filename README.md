@@ -13,7 +13,11 @@ Usage
 
 [//]: # (| ![patch_update]&#40;screenshots/patch_update.png&#41; | ![patch_update]&#40;screenshots/major_update.png&#41; |)
 
-Patch & Minor Update                           Major Update
+<div style="display: flex; justify-content: center; gap: 100px; font-weight: bold; font-size: 18px; margin-bottom: 20px;">
+  <div>Patch & Minor Update</div>
+  <div>Major Update</div>
+</div>
+
 <div>
   <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;" />
 </div>
