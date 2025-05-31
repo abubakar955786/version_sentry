@@ -6,9 +6,18 @@ Usage
 
 ## 📱 Screenshots
 
-| Style1                                       | Style2                     |
-|----------------------------------------------| -------------------------- |
-| ![patch_update](screenshots/patch_update.png) | ![patch_update](screenshots/major_update.png) |
+
+<div style="display: flex; justify-content: center; gap: 60px; align-items: center; text-align: center; margin-top: 20px;">
+  <div>
+    <div style="font-weight: bold; margin-bottom: 10px;">Style1</div>
+    <img src="screenshots/patch_update.png" alt="patch_update" style="max-width: 100%; height: auto;" />
+  </div>
+  <div>
+    <div style="font-weight: bold; margin-bottom: 10px;">Style2</div>
+    <img src="screenshots/major_update.png" alt="major_update" style="max-width: 100%; height: auto;" />
+  </div>
+</div>
+
 
 [//]: # (<div style="text-align: center;">)
 
