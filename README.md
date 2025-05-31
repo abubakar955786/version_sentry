@@ -6,22 +6,9 @@ Usage
 
 ## 📱 Screenshots
 
-
-<div style="display: flex; justify-content: center; align-items: center; gap: 80px; margin-top: 20px;">
-  <!-- Style 1 -->
-  <div style="text-align: center;">
-    <div style="font-weight: bold; margin-bottom: 10px;">Style1</div>
-    <img src="screenshots/patch_update.png" alt="patch_update" style="max-width: 200px; height: auto;" />
-  </div>
-
-  <!-- Style 2 -->
-  <div style="text-align: center;">
-    <div style="font-weight: bold; margin-bottom: 10px;">Style2</div>
-    <img src="screenshots/major_update.png" alt="major_update" style="max-width: 200px; height: auto;" />
-  </div>
-</div>
-
-
+| Patch & Minor Update                          | Major Update                                  |
+|-----------------------------------------------|-----------------------------------------------|
+| ![patch_update](screenshots/patch_update.png) | ![patch_update](screenshots/major_update.png) |
 
 [//]: # (<div style="text-align: center;">)
 
