@@ -4,10 +4,12 @@ A Flutter package to help apps stay up-to-date by fetching the latest version fr
 Usage
 
 
-## 📱 Screenshots
-
-<div>
-  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png"/>
+<div style="text-align: center;">
+  <div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 10px;">
+    <h3>Title One</h3>
+    <h3>Title Two</h3>
+  </div>
+  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;"/>
 </div>
 
 
