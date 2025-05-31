@@ -6,6 +6,11 @@ Usage
 
 ## 📱 Screenshots
 
+| Preview | PageView |
+|---------|----------|
+| ![patch_update](screenshots/patch_update.png) | ![patch_update](screenshots/major_update.png) |
+
+
 [//]: # ()
 [//]: # (| Patch & Minor Update                          | Major Update                                  |)
 
@@ -13,18 +18,12 @@ Usage
 
 [//]: # (| ![patch_update]&#40;screenshots/patch_update.png&#41; | ![patch_update]&#40;screenshots/major_update.png&#41; |)
 
-<!-- Titles -->
-<div style="display: flex; justify-content: center; gap: 100px; font-weight: bold; font-size: 18px; margin-bottom: 10px;">
-  <div>Patch & Minor Update</div>
-  <div>Major Update</div>
-</div>
 
-<!-- Images -->
-<div style="display: flex; justify-content: center; gap: 100px;">
-  <img src="screenshots/patch_update.png" alt="Patch Update" style="max-width: 200px;" />
-  <img src="screenshots/major_update.png" alt="Major Update" style="max-width: 200px;" />
-</div>
+[//]: # (<div>)
 
+[//]: # (  <img src="https://raw.githubusercontent.com/abubakar955786/version_sentry/main/screenshots/screenshot.png" alt="Screenshot" style="max-width: 100%; height: auto;" />)
+
+[//]: # (</div>)
 
 
 
