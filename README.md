@@ -6,9 +6,8 @@ Usage
 
 ## 📱 Screenshots
 
- Style1                                        Style2                     
-
- ![patch_update](screenshots/patch_update.png)  ![patch_update](screenshots/major_update.png) 
+| Style1                                       | Style2                     |
+| ![patch_update](screenshots/patch_update.png) | ![patch_update](screenshots/major_update.png) |
 
 [//]: # (<div style="text-align: center;">)
 
