@@ -279,9 +279,9 @@
     },
     {
       "name": "url_launcher",
-      "rootUri": "file:///Users/abubakar/.pub-cache/hosted/pub.dev/url_launcher-6.3.0",
+      "rootUri": "file:///Users/abubakar/.pub-cache/hosted/pub.dev/url_launcher-6.3.2",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.6"
     },
     {
       "name": "url_launcher_android",

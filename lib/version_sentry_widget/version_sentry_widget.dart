@@ -54,7 +54,7 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
       if(widget.sowStaticReleaseNotes == true){
         releaseNotes = "Please update to the latest version now to ensure you have the best experience and access to all new features.";
       }
-      if(versionSentryInfo?.isMajorUpdate??false) {
+      if(versionSentryInfo?.isMajorUpdate??false ) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
             VersionSentryMajorUpdateScreen(
               releaseNotes: releaseNotesWidget (),
