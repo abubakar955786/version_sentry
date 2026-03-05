@@ -22,7 +22,7 @@ class VersionSentry {
 
       // Initialize default values
       String storeVersion = '0.0.0';
-      String? releaseNotes;
+      String releaseNotes = '';
       String appStoreLink = '';
       bool needsUpdate = false;
       bool isMajorUpdate = false;
@@ -32,28 +32,26 @@ class VersionSentry {
       // Platform-specific handling
       if (Platform.isAndroid) {
         final playStoreResult = await PlayStoreSearchAPI().lookupById(
-         // packageInfo.packageName,
-          'com.bemax.in',
+          packageInfo.packageName,
           country: countryCode,
           language: language
         );
 
         if (playStoreResult != null) {
           storeVersion = PlayStoreSearchAPI().version(playStoreResult) ?? '0.0.0';
-          releaseNotes = PlayStoreSearchAPI().releaseNotes(playStoreResult);
+          releaseNotes = PlayStoreSearchAPI().releaseNotes(playStoreResult)??"";
           appStoreLink = 'https://play.google.com/store/apps/details?id=${packageInfo.packageName}';
         }
       } else {
         final iTunesResult = await ITunesSearchAPI().lookupByBundleId(
-          // packageInfo.packageName,
-          'com.bemax.in',
+           packageInfo.packageName,
           country: countryCode,
           language: language
         );
 
         if (iTunesResult != null) {
           storeVersion = ITunesSearchAPI().version(iTunesResult) ?? '0.0.0';
-          releaseNotes = ITunesSearchAPI().releaseNotes(iTunesResult);
+          releaseNotes = ITunesSearchAPI().releaseNotes(iTunesResult)??"";
           appStoreLink = ITunesSearchAPI().appStoreLink(iTunesResult);
         }
       }
@@ -79,7 +77,7 @@ class VersionSentry {
         isPatchUpdate: isPatchUpdate,
         releaseNotes: releaseNotes,
         packageName: packageInfo.packageName,
-        appStoreLink: appStoreLink,
+        appUpdateLink: appStoreLink,
       );
     } catch (e) {
       throw Exception('VersionSentry Error: ${e.toString()}');
