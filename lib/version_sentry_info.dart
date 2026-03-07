@@ -8,6 +8,7 @@ class VersionSentryInfo {
   final bool isPatchUpdate;
   final String? releaseNotes;
   final String packageName;
+  final String bundleId;
   final String appUpdateLink;
 
   VersionSentryInfo({
@@ -20,6 +21,7 @@ class VersionSentryInfo {
     required this.isPatchUpdate,
     this.releaseNotes,
     required this.packageName,
+    required this.bundleId,
     required this.appUpdateLink,
   });
 
@@ -34,6 +36,7 @@ class VersionSentryInfo {
       isPatchUpdate: json['isPatchUpdate'] as bool,
       releaseNotes: json['releaseNotes'] as String?,
       packageName: json['packageName'] as String,
+      bundleId: json['bundleId'] as String,
       appUpdateLink: json['appStoreLink'] as String,
     );
   }
@@ -49,6 +52,7 @@ class VersionSentryInfo {
       'isPatchUpdate': isPatchUpdate,
       'releaseNotes': releaseNotes,
       'packageName': packageName,
+      'bundleId': bundleId,
       'appStoreLink': appUpdateLink,
     };
   }
@@ -62,6 +66,7 @@ class VersionSentryInfo {
         '  Needs Update: $needsUpdate\n'
         '  Update Type: $_updateType\n'
         '  Package: $packageName\n'
+        '  bundleId: $bundleId\n'
         '  Store Link: $appUpdateLink\n'
         ')';
   }

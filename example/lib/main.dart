@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   VersionSentryInfo? versionSentryInfo;
 
   void getVersionInfo () async {
-    versionSentryInfo = await VersionSentry.versionSentryInfo(countryCode: 'in');
+    versionSentryInfo = await VersionSentry.versionSentryInfo();
 
     print(versionSentryInfo?.currentVersion); // 1.0.0
     print(versionSentryInfo?.storeVersion); // 1.4.20
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    getVersionInfo ();
+    // getVersionInfo ();
     super.initState();
   }
   @override
@@ -62,28 +62,28 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Version Sentry"),
       ),
-      body: const VersionSentryWidget(
+      body:  VersionSentryWidget(
 
         /// Customize Your Update Style
 
-        // countryCode: "in",
-        // showPatchAndMinorUpdate: true,
-        // showMajorUpdate: true,
-        // reminderEvery : const Duration(hours: 12),
-        // updateButtonText : 'Update',
-        // cancelButtonText : 'Cancel',
-        // updateButtonStyle: const ButtonStyle(),
-        // cancelButtonStyle: const ButtonStyle(),
-        // sowStaticReleaseNotes: true,
-        // iconWidget: const Icon(CupertinoIcons.download_circle),
-        // releaseNotes: const Text("Custom release notes"),
-        // titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-        // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        // appBarColor: Theme.of(context).primaryColor.withOpacity(0.2),
-        // releaseNotesTextStyle: Theme.of(context).textTheme.bodyLarge,
-        // primacyColor: Theme.of(context).primaryColor,
 
-        child: Center(
+        showPatchAndMinorUpdate: true,
+        showMajorUpdate: true,
+        reminderEvery : const Duration(hours: 12),
+        updateButtonText : 'Update',
+        cancelButtonText : 'Cancel',
+        updateButtonStyle: const ButtonStyle(),
+        cancelButtonStyle: const ButtonStyle(),
+        sowStaticReleaseNotes: true,
+        iconWidget: const Icon(CupertinoIcons.download_circle),
+        releaseNotes: const Text("Custom release notes"),
+        titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBarColor: Theme.of(context).primaryColor.withOpacity(0.2),
+        releaseNotesTextStyle: Theme.of(context).textTheme.bodyLarge,
+        primacyColor: Theme.of(context).primaryColor,
+
+        child: const Center(
           child: Text('A Minor or Patch Update is\nNow Available!', style: TextStyle(fontSize: 20),textAlign: TextAlign.center,),
         ),
       ),

@@ -9,15 +9,15 @@ import 'bottom_sheet.dart';
 import 'major_update_screen.dart';
 
 class VersionSentryWidget extends StatefulWidget {
-  final bool? sowStaticReleaseNotes;
+  final bool? sowStaticReleaseNotes, showMajorUpdate;
   final TextStyle? titleStyle, releaseNotesTextStyle;
   final Color? backgroundColor, appBarColor, primacyColor;
-  final String? cancelButtonText, updateButtonText, countryCode;
+  final String? cancelButtonText, updateButtonText, iOSAppStoreCountry, packageName, bundleId, androidPlayStoreCountry;
   final ButtonStyle? updateButtonStyle, cancelButtonStyle;
   final Widget? iconWidget, releaseNotes;
   final Widget child;
   final bool? showPatchAndMinorUpdate;
-  final bool? showMajorUpdate;
+  final bool androidHtmlReleaseNotes;
   final Duration? reminderEvery;
   const VersionSentryWidget({super.key,
     required this.child,
@@ -36,7 +36,11 @@ class VersionSentryWidget extends StatefulWidget {
     this.releaseNotesTextStyle,
     this.appBarColor,
     this.primacyColor,
-    this.countryCode
+    this.iOSAppStoreCountry,
+    this.packageName,
+    this.bundleId,
+    this.androidPlayStoreCountry,
+    this.androidHtmlReleaseNotes = false
   });
 
   @override
@@ -50,7 +54,13 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
 
 
   void init () async {
-      versionSentryInfo = await VersionSentry.versionSentryInfo(countryCode: widget.countryCode??'in');
+      versionSentryInfo = await VersionSentry.versionSentryInfo(
+          iOSAppStoreCountry: widget.iOSAppStoreCountry,
+          androidPlayStoreCountry: widget.androidPlayStoreCountry,
+          androidHtmlReleaseNotes: widget.androidHtmlReleaseNotes,
+          packageName: widget.packageName,
+          bundleId: widget.bundleId);
+
       if(widget.sowStaticReleaseNotes == true){
         releaseNotes = "Please update to the latest version now to ensure you have the best experience and access to all new features.";
       }

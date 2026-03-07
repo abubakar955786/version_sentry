@@ -1,60 +1,52 @@
 library version_sentry;
 
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:version/version.dart';
-import 'package:version_sentry/play_store_search_api.dart';
+import 'package:version_sentry/network_manager/network_manager.dart';
 import 'package:version_sentry/version_sentry_info.dart';
-import 'itunes_search_api.dart';
 
 class VersionSentry {
-  static Future<VersionSentryInfo> versionSentryInfo({
-    String? countryCode,String? language,
+  static Future<VersionSentryInfo?> versionSentryInfo({
+    String? packageName, bundleId, iOSAppStoreCountry, androidPlayStoreCountry,
+    bool androidHtmlReleaseNotes = false,
   }) async {
+    // Validate platform
+    if (!Platform.isAndroid && !Platform.isIOS) {
+      throw Exception('Unsupported platform - Only Android/iOS supported');
+    }
+
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    final platform = Platform.isAndroid ? 'Android' : 'iOS';
+    final package = packageName ?? packageInfo.packageName;
+    final bundle = bundleId ?? packageInfo.packageName;
+    final appUpdateUrl = Platform.isAndroid ? 'https://play.google.com/store/apps/details?id=$package'
+        : 'https://apps.apple.com/in/app/return-to-dark-castle/id$bundle';
+
+
+    // Initialize default values
+    String storeVersion = '0.0.0';
+    String releaseNotes = '';
+    bool needsUpdate = false;
+    bool isMajorUpdate = false;
+    bool isMinorUpdate = false;
+    bool isPatchUpdate = false;
+
     try {
-      // Validate platform
-      if (!Platform.isAndroid && !Platform.isIOS) {
-        throw Exception('Unsupported platform - Only Android/iOS supported');
-      }
 
-      final packageInfo = await PackageInfo.fromPlatform();
-      final platform = Platform.isAndroid ? 'Android' : 'iOS';
+      final Map<String, dynamic>? storeResult = await NetworkManager.getAppInfo(
+          packageName: package,
+          bundleId: bundle,
+          androidHtmlReleaseNotes: androidHtmlReleaseNotes,
+          iOSAppStoreCountry: iOSAppStoreCountry,
+          androidPlayStoreCountry: androidPlayStoreCountry,
+      );
 
-      // Initialize default values
-      String storeVersion = '0.0.0';
-      String releaseNotes = '';
-      String appStoreLink = '';
-      bool needsUpdate = false;
-      bool isMajorUpdate = false;
-      bool isMinorUpdate = false;
-      bool isPatchUpdate = false;
+      storeVersion = storeResult?['storeVersion'] ?? '0.0.0';
+      releaseNotes = storeResult?['releaseNotes'] ?? '0.0.0';
 
-      // Platform-specific handling
-      if (Platform.isAndroid) {
-        final playStoreResult = await PlayStoreSearchAPI().lookupById(
-          packageInfo.packageName,
-          country: countryCode,
-          language: language
-        );
-
-        if (playStoreResult != null) {
-          storeVersion = PlayStoreSearchAPI().version(playStoreResult) ?? '0.0.0';
-          releaseNotes = PlayStoreSearchAPI().releaseNotes(playStoreResult)??"";
-          appStoreLink = 'https://play.google.com/store/apps/details?id=${packageInfo.packageName}';
-        }
-      } else {
-        final iTunesResult = await ITunesSearchAPI().lookupByBundleId(
-           packageInfo.packageName,
-          country: countryCode,
-          language: language
-        );
-
-        if (iTunesResult != null) {
-          storeVersion = ITunesSearchAPI().version(iTunesResult) ?? '0.0.0';
-          releaseNotes = ITunesSearchAPI().releaseNotes(iTunesResult)??"";
-          appStoreLink = ITunesSearchAPI().appStoreLink(iTunesResult);
-        }
-      }
 
       // Version comparison
       final current = Version.parse(packageInfo.version);
@@ -76,11 +68,27 @@ class VersionSentry {
         isMinorUpdate: isMinorUpdate,
         isPatchUpdate: isPatchUpdate,
         releaseNotes: releaseNotes,
-        packageName: packageInfo.packageName,
-        appUpdateLink: appStoreLink,
+        packageName: package,
+        appUpdateLink: appUpdateUrl,
+        bundleId: bundle
       );
+
     } catch (e) {
-      throw Exception('VersionSentry Error: ${e.toString()}');
+      debugPrint('VersionSentry Error: ${e.toString()}');
+      return VersionSentryInfo(
+          platform: platform,
+          currentVersion: packageInfo.version,
+          storeVersion: storeVersion,
+          needsUpdate: needsUpdate,
+          isMajorUpdate: isMajorUpdate,
+          isMinorUpdate: isMinorUpdate,
+          isPatchUpdate: isPatchUpdate,
+          releaseNotes: releaseNotes,
+          packageName: package,
+          appUpdateLink: appUpdateUrl,
+          bundleId: bundleId
+      );
+     // throw Exception('VersionSentry Error: ${e.toString()}');
     }
   }
 }
