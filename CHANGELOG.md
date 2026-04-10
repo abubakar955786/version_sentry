@@ -1,3 +1,6 @@
+## 1.4.0
+- Fix Apple Store or Play Store Url
+
 ## 1.3.0
 - Improved Play Store scraping
 - Fixed update check issues
