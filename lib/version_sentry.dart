@@ -9,7 +9,7 @@ import 'package:version_sentry/version_sentry_info.dart';
 
 class VersionSentry {
   static Future<VersionSentryInfo?> versionSentryInfo({
-    String? packageName, bundleId, iOSAppStoreCountry, androidPlayStoreCountry,
+    String? packageName, String? bundleId, String? iOSAppStoreCountry, String? androidPlayStoreCountry,
     bool androidHtmlReleaseNotes = false,
   }) async {
     // Validate platform
@@ -22,17 +22,17 @@ class VersionSentry {
     final platform = Platform.isAndroid ? 'Android' : 'iOS';
     final package = packageName ?? packageInfo.packageName;
     final bundle = bundleId ?? packageInfo.packageName;
-    final appUpdateUrl = Platform.isAndroid ? 'https://play.google.com/store/apps/details?id=$package'
-        : 'https://apps.apple.com/in/app/return-to-dark-castle/id$bundle';
 
 
     // Initialize default values
     String storeVersion = '0.0.0';
     String releaseNotes = '';
+    String storeUrl = '';
     bool needsUpdate = false;
     bool isMajorUpdate = false;
     bool isMinorUpdate = false;
     bool isPatchUpdate = false;
+
 
     try {
 
@@ -46,6 +46,7 @@ class VersionSentry {
 
       storeVersion = storeResult?['storeVersion'] ?? '0.0.0';
       releaseNotes = storeResult?['releaseNotes'] ?? '0.0.0';
+      storeUrl = storeResult?['storeUrl'] ?? '';
 
 
       // Version comparison
@@ -69,7 +70,7 @@ class VersionSentry {
         isPatchUpdate: isPatchUpdate,
         releaseNotes: releaseNotes,
         packageName: package,
-        appUpdateLink: appUpdateUrl,
+        storeUrl: storeUrl,
         bundleId: bundle
       );
 
@@ -85,8 +86,8 @@ class VersionSentry {
           isPatchUpdate: isPatchUpdate,
           releaseNotes: releaseNotes,
           packageName: package,
-          appUpdateLink: appUpdateUrl,
-          bundleId: bundleId
+          storeUrl: storeUrl,
+          bundleId: bundle,
       );
      // throw Exception('VersionSentry Error: ${e.toString()}');
     }

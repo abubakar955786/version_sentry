@@ -9,7 +9,7 @@ class VersionSentryInfo {
   final String? releaseNotes;
   final String packageName;
   final String bundleId;
-  final String appUpdateLink;
+  final String storeUrl;
 
   VersionSentryInfo({
     required this.platform,
@@ -22,7 +22,7 @@ class VersionSentryInfo {
     this.releaseNotes,
     required this.packageName,
     required this.bundleId,
-    required this.appUpdateLink,
+    required this.storeUrl,
   });
 
   factory VersionSentryInfo.fromJson(Map<String, dynamic> json) {
@@ -37,7 +37,7 @@ class VersionSentryInfo {
       releaseNotes: json['releaseNotes'] as String?,
       packageName: json['packageName'] as String,
       bundleId: json['bundleId'] as String,
-      appUpdateLink: json['appStoreLink'] as String,
+      storeUrl: json['storeUrl'] as String,
     );
   }
 
@@ -53,7 +53,7 @@ class VersionSentryInfo {
       'releaseNotes': releaseNotes,
       'packageName': packageName,
       'bundleId': bundleId,
-      'appStoreLink': appUpdateLink,
+      'storeUrl': storeUrl,
     };
   }
 
@@ -67,7 +67,7 @@ class VersionSentryInfo {
         '  Update Type: $_updateType\n'
         '  Package: $packageName\n'
         '  bundleId: $bundleId\n'
-        '  Store Link: $appUpdateLink\n'
+        '  Store Link: $storeUrl\n'
         ')';
   }
 

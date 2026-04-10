@@ -80,6 +80,7 @@ class NetworkManager {
       final result = results.first;
 
       return {
+        "storeUrl": "https://apps.apple.com/app/id${result['trackId']}",
         "storeVersion": result['version'],
         "releaseNotes": result['releaseNotes'],
       };
@@ -136,6 +137,7 @@ class NetworkManager {
       }
 
       return {
+        "storeUrl": "https://play.google.com/store/apps/details?id=$packageName",
         "storeVersion": RegExp(r'\d+(\.\d+)?(\.\d+)?').stringMatch(storeVersion ?? "") ?? '0.0.0',
         "releaseNotes": releaseNotes,
       };

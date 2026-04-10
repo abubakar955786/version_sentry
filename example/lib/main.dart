@@ -47,12 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
     print(versionSentryInfo?.releaseNotes); // Improve Design
     print(versionSentryInfo?.packageName); // com.example.example
     print(versionSentryInfo?.platform); // iOS
+    print(versionSentryInfo?.storeUrl); // Apple Store or Play Store Url
     setState(() {});
   }
 
   @override
   void initState() {
-    // getVersionInfo ();
+     getVersionInfo ();
     super.initState();
   }
   @override

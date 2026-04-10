@@ -72,9 +72,9 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
               updateNowButtonText: widget.updateButtonText??"",
               onTap: ()async{
                 try {
-                  await launchUrl(Uri.parse(versionSentryInfo?.appUpdateLink??""));
+                  await launchUrl(Uri.parse(versionSentryInfo?.storeUrl??""));
                 } catch (e) {
-                  throw "Error while open app url: ${versionSentryInfo?.appUpdateLink??""}";
+                  throw "Error while open app url: ${versionSentryInfo?.storeUrl??""}";
                 }
                 },
               titleStyle: titleStyle(),
@@ -132,9 +132,9 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
         releaseNotesWidget: releaseNotesWidget(),
         onTapUpdate: () async {
           try {
-            await launchUrl(Uri.parse(versionSentryInfo?.appUpdateLink??""));
+            await launchUrl(Uri.parse(versionSentryInfo?.storeUrl??""));
           } catch (e) {
-            throw "Error while open app url: ${versionSentryInfo?.appUpdateLink??""}";
+            throw "Error while open app url: ${versionSentryInfo?.storeUrl??""}";
           }
         },
         bgColor: backgroundColor(),
