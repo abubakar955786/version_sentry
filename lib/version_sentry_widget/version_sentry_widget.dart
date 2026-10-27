@@ -9,7 +9,13 @@ import 'bottom_sheet.dart';
 import 'major_update_screen.dart';
 
 class VersionSentryWidget extends StatefulWidget {
-  final bool? sowStaticReleaseNotes, showMajorUpdate;
+  final bool? showMajorUpdate;
+
+  /// Show the built-in generic update message instead of the store's notes.
+  final bool? showStaticReleaseNotes;
+
+  @Deprecated('Misspelled; use showStaticReleaseNotes instead.')
+  final bool? sowStaticReleaseNotes;
   final TextStyle? titleStyle, releaseNotesTextStyle;
   final Color? backgroundColor, appBarColor, primacyColor;
   final String? cancelButtonText, updateButtonText, iOSAppStoreCountry, packageName, bundleId, androidPlayStoreCountry;
@@ -28,7 +34,9 @@ class VersionSentryWidget extends StatefulWidget {
     this.cancelButtonText = 'Cancel',
     this.updateButtonStyle,
     this.cancelButtonStyle,
-    this.sowStaticReleaseNotes = true,
+    this.showStaticReleaseNotes,
+    // ignore: deprecated_member_use_from_same_package
+    @Deprecated('Misspelled; use showStaticReleaseNotes instead.') this.sowStaticReleaseNotes,
     this.iconWidget,
     this.releaseNotes,
     this.titleStyle,
@@ -61,10 +69,18 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
           packageName: widget.packageName,
           bundleId: widget.bundleId);
 
-      if(widget.sowStaticReleaseNotes == true){
-        releaseNotes = "Please update to the latest version now to ensure you have the best experience and access to all new features.";
-      }
-      if(versionSentryInfo?.isMajorUpdate??false ) {
+      if(!mounted) return;
+
+      final info = versionSentryInfo;
+      if(info == null || !info.needsUpdate) return;
+
+      releaseNotes = useStaticReleaseNotes
+          ? "Please update to the latest version now to ensure you have the best experience and access to all new features."
+          : info.releaseNotes;
+
+      /// Several flags can be true at once (2.1.1 over 1.0.0), so major wins.
+      if(info.isMajorUpdate) {
+        if(widget.showMajorUpdate != true) return;
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
             VersionSentryMajorUpdateScreen(
               releaseNotes: releaseNotesWidget (),
@@ -82,13 +98,14 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
               backgroundColor: backgroundColor (),
               appBarColor: appBarColor (),
             )));
+        return;
       }
 
-
-      if((versionSentryInfo?.isPatchUpdate??false) || (versionSentryInfo?.isMinorUpdate??false)){
+      if(info.isMinorUpdate || info.isPatchUpdate){
+        if(widget.showPatchAndMinorUpdate != true) return;
         nextReminder = widget.reminderEvery??const Duration(hours: 12);
         bool show = await readyToShow(nextReminder.inMinutes);
-        if(show){
+        if(show && mounted){
           saveDateTime();
           patchOrMinorUpdate ();
         }
@@ -149,6 +166,11 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
   }
 
 
+
+  bool get useStaticReleaseNotes {
+    // ignore: deprecated_member_use_from_same_package
+    return widget.showStaticReleaseNotes ?? widget.sowStaticReleaseNotes ?? true;
+  }
 
   Widget iconWidget (double iconSize) {
     return SizedBox(

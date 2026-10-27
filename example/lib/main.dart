@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         cancelButtonText : 'Cancel',
         updateButtonStyle: const ButtonStyle(),
         cancelButtonStyle: const ButtonStyle(),
-        sowStaticReleaseNotes: true,
+        showStaticReleaseNotes: true,
         iconWidget: const Icon(CupertinoIcons.download_circle),
         releaseNotes: const Text("Custom release notes"),
         titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),

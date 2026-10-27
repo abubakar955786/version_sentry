@@ -45,7 +45,7 @@ class VersionSentry {
       );
 
       storeVersion = storeResult?['storeVersion'] ?? '0.0.0';
-      releaseNotes = storeResult?['releaseNotes'] ?? '0.0.0';
+      releaseNotes = storeResult?['releaseNotes'] ?? '';
       storeUrl = storeResult?['storeUrl'] ?? '';
 
 

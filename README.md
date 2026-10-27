@@ -31,7 +31,11 @@ class MyHomePage extends StatelessWidget {
 
         /// Customize Your Update Style
 
-        // countryCode: "in",
+        // iOSAppStoreCountry: "in",
+        // androidPlayStoreCountry: "en_IN",
+        // packageName: "com.example.example",
+        // bundleId: "com.example.example",
+        // androidHtmlReleaseNotes: false,
         // showPatchAndMinorUpdate: true,
         // showMajorUpdate: true,
         // reminderEvery : const Duration(hours: 12),
@@ -39,7 +43,7 @@ class MyHomePage extends StatelessWidget {
         // cancelButtonText : 'Cancel',
         // updateButtonStyle: const ButtonStyle(),
         // cancelButtonStyle: const ButtonStyle(),
-        // sowStaticReleaseNotes: true,
+        // showStaticReleaseNotes: true,
         // iconWidget: const Icon(CupertinoIcons.download_circle),
         // releaseNotes: const Text("Custom release notes"),
         // titleStyle: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
@@ -64,7 +68,10 @@ You can also get version details and use them according to your requirement:
 import 'package:version_sentry/version_sentry.dart';
 
 void main() async {
-  VersionSentryInfo? versionSentryInfo = await VersionSentry.versionSentryInfo(countryCode: 'in');
+  VersionSentryInfo? versionSentryInfo = await VersionSentry.versionSentryInfo(
+    iOSAppStoreCountry: 'in',
+    androidPlayStoreCountry: 'en_IN',
+  );
 
   print(versionSentryInfo?.currentVersion); // 1.0.0
   print(versionSentryInfo?.storeVersion); // 1.4.20
@@ -75,6 +82,7 @@ void main() async {
   print(versionSentryInfo?.releaseNotes); // Improve Design
   print(versionSentryInfo?.packageName); // com.example.example
   print(versionSentryInfo?.platform); // iOS
+  print(versionSentryInfo?.storeUrl); // https://apps.apple.com/app/id123456789
 }
 ```
 
@@ -82,5 +90,11 @@ Features
 --------
 1. Fetches the latest version from the Play Store (Android) or App Store (iOS)
 2. Provides information about the current version, store version, and update requirements
-3. Supports country-specific version fetching using country codes
+3. Supports country-specific version fetching via `iOSAppStoreCountry` and `androidPlayStoreCountry`
+
+### Update precedence
+
+A single store bump can satisfy more than one of `isMajorUpdate` / `isMinorUpdate` / `isPatchUpdate` at
+once (2.1.1 over 1.0.0 sets all three), so check `isMajorUpdate` first. `VersionSentryWidget` already
+does: a major update shows the blocking full-screen prompt and never also shows the bottom sheet.
 
