@@ -1,11 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// The button used by the built-in update screens.
+///
+/// A null [onTap] renders it disabled, which is how the default UI shows that
+/// a download is already running.
 class VersionSentryButtonWidget extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String buttonText;
   final ButtonStyle? buttonStyle;
-  const VersionSentryButtonWidget({super.key, required this.onTap,this.buttonStyle, required this.buttonText});
+
+  const VersionSentryButtonWidget({
+    super.key,
+    required this.onTap,
+    this.buttonStyle,
+    required this.buttonText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +22,16 @@ class VersionSentryButtonWidget extends StatelessWidget {
       height: 56,
       child: ElevatedButton(
         onPressed: onTap,
-        style: buttonStyle??ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Theme.of(context).canvasColor,
+        style: buttonStyle ??
+            ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Theme.of(context).canvasColor,
+            ),
+        child: Text(
+          buttonText,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
-        child: Text(buttonText,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
       ),
     );
   }

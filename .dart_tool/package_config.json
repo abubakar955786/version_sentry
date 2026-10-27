@@ -365,7 +365,7 @@
       "name": "version_sentry",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.6"
     }
   ],
   "generator": "pub",

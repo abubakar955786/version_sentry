@@ -85,5 +85,18 @@ void main() {
 
       expect(tapped, 1);
     });
+
+    testWidgets('renders disabled when onTap is null', (WidgetTester tester) async {
+      /// The default UI passes null while a download is running.
+      await tester.pumpWidget(const MaterialApp(
+        home: Scaffold(
+          body: VersionSentryButtonWidget(onTap: null, buttonText: 'Update'),
+        ),
+      ));
+
+      final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+      expect(button.onPressed, isNull);
+      expect(button.enabled, isFalse);
+    });
   });
 }
