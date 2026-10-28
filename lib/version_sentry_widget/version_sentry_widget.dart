@@ -30,7 +30,7 @@ import 'package:version_sentry/version_sentry_widget/version_sentry_update_reque
 ///   showMajorUpdate: true,
 ///   showMinorUpdate: true,
 ///   showPatchUpdate: false,
-///   reminderEvery: const Duration(hours: 12),
+///   minorUpdateReminder: const Duration(hours: 12),
 ///   child: const MyApp(),
 /// )
 /// ```
@@ -58,7 +58,7 @@ class VersionSentryWidget extends StatefulWidget {
   /// How long to wait before prompting again for a minor or patch update.
   ///
   /// Never applies to major updates, which prompt on every launch.
-  final Duration reminderEvery;
+  final Duration minorUpdateReminder;
 
   /// The message shown on the major-update screen.
   final String majorReleaseNote;
@@ -67,12 +67,6 @@ class VersionSentryWidget extends StatefulWidget {
   /// [showPatchUpdate] is on.
   final String minorReleaseNote;
 
-  /// Two-letter App Store country, when the app is published in one store only.
-  final String? iOSAppStoreCountry;
-
-  /// Play Store language/country code, e.g. `en_IN`.
-  final String? androidPlayStoreCountry;
-
   const VersionSentryWidget({
     super.key,
     required this.child,
@@ -80,15 +74,13 @@ class VersionSentryWidget extends StatefulWidget {
     this.showMajorUpdate = true,
     this.showMinorUpdate = true,
     this.showPatchUpdate = false,
-    this.reminderEvery = const Duration(hours: 12),
+    this.minorUpdateReminder = const Duration(hours: 12),
     this.majorReleaseNote =
         'This update is required to keep using the app. Please update to the '
         'latest version to continue.',
     this.minorReleaseNote =
         'A new version is available with improvements and new features. Update '
         'now for the best experience.',
-    this.iOSAppStoreCountry,
-    this.androidPlayStoreCountry,
   });
 
   @override
@@ -113,10 +105,7 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
           defaultTargetPlatform == TargetPlatform.iOS);
 
   Future<void> _check() async {
-    final info = await VersionSentry.versionSentryInfo(
-      iOSAppStoreCountry: widget.iOSAppStoreCountry,
-      androidPlayStoreCountry: widget.androidPlayStoreCountry,
-    );
+    final info = await VersionSentry.versionSentryInfo();
 
     if (!mounted || info == null || !info.needsUpdate) return;
 
@@ -243,7 +232,7 @@ class _VersionSentryWidgetState extends State<VersionSentryWidget> {
     final prefs = await SharedPreferences.getInstance();
     final last = prefs.getInt(_lastShownKey) ?? 0;
     final nextAllowed =
-        DateTime.fromMillisecondsSinceEpoch(last).add(widget.reminderEvery);
+        DateTime.fromMillisecondsSinceEpoch(last).add(widget.minorUpdateReminder);
 
     return !nextAllowed.isAfter(DateTime.now());
   }

@@ -9,7 +9,7 @@ import 'package:version_sentry/version_sentry_info.dart';
 
 class VersionSentry {
   static Future<VersionSentryInfo?> versionSentryInfo({
-    String? packageName, String? bundleId, String? iOSAppStoreCountry, String? androidPlayStoreCountry,
+    String? packageName, String? bundleId,
     bool androidHtmlReleaseNotes = false,
   }) async {
     // Validate platform
@@ -40,8 +40,6 @@ class VersionSentry {
           packageName: package,
           bundleId: bundle,
           androidHtmlReleaseNotes: androidHtmlReleaseNotes,
-          iOSAppStoreCountry: iOSAppStoreCountry,
-          androidPlayStoreCountry: androidPlayStoreCountry,
       );
 
       storeVersion = storeResult?['storeVersion'] ?? '0.0.0';

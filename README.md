@@ -91,7 +91,7 @@ class MyHomePage extends StatelessWidget {
       showMinorUpdate: true,
       showPatchUpdate: false,
 
-      reminderEvery: const Duration(hours: 12),
+      minorUpdateReminder: const Duration(hours: 12),
 
       child: Scaffold(
         appBar: AppBar(title: const Text('Version Sentry')),
@@ -111,11 +111,9 @@ That's the whole widget API. Every parameter is optional except `child`:
 | `showMajorUpdate`         | `true`     | Blocking full-screen prompt                              |
 | `showMinorUpdate`         | `true`     | Dismissible bottom sheet                                 |
 | `showPatchUpdate`         | `false`    | Same sheet, for patch releases                           |
-| `reminderEvery`           | `12 hours` | Throttle for minor and patch prompts only                |
+| `minorUpdateReminder`     | `12 hours` | Throttle for minor and patch prompts only                |
 | `majorReleaseNote`        | built-in   | Message on the major-update screen                       |
 | `minorReleaseNote`        | built-in   | Message on the minor and patch sheets                    |
-| `iOSAppStoreCountry`      | `null`     | App Store country, e.g. `in`                             |
-| `androidPlayStoreCountry` | `null`     | Play Store language/country, e.g. `en_IN`                |
 
 ### Release notes
 
@@ -239,10 +237,7 @@ import 'package:version_sentry/version_sentry.dart';
 import 'package:version_sentry/version_sentry_info.dart';
 
 void main() async {
-  VersionSentryInfo? versionSentryInfo = await VersionSentry.versionSentryInfo(
-    iOSAppStoreCountry: 'in',
-    androidPlayStoreCountry: 'en_IN',
-  );
+  VersionSentryInfo? versionSentryInfo = await VersionSentry.versionSentryInfo();
 
   print(versionSentryInfo?.currentVersion); // 1.0.0
   print(versionSentryInfo?.storeVersion);   // 1.4.20
@@ -264,7 +259,7 @@ void main() async {
 
 ## The reminder interval
 
-`reminderEvery` (default 12 hours) throttles **minor and patch prompts only**, using a single
+`minorUpdateReminder` (default 12 hours) throttles **minor and patch prompts only**, using a single
 `SharedPreferences` timestamp. Major updates are mandatory, so they prompt on every launch regardless.
 
 -----
@@ -273,7 +268,7 @@ Features
 --------
 1. Fetches the latest version from the Play Store (Android) or App Store (iOS)
 2. Provides information about the current version, store version, and update requirements
-3. Supports country-specific version fetching via `iOSAppStoreCountry` and `androidPlayStoreCountry`
+3. Looks the app up in the device's own storefront and language, taken from the OS locale
 4. Separate prompts for major, minor and patch updates, each individually switchable
 5. In-app download and install on Android, with live status and download percentage
 6. Built-in screens that follow your app's `Theme`, with overridable release notes

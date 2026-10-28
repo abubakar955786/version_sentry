@@ -13,26 +13,48 @@ class NetworkManager {
   static final RegExp _removeHtmlRegex = RegExp(r"\\u003c[A-Za-z]{1,10}\\u003e");
   static final RegExp _removeQuoteRegex = RegExp(r"\\u0026quot;");
 
+  /// Language and region subtags of the OS locale.
+  ///
+  /// [Platform.localeName] arrives in several shapes — `en_IN`, `en-IN`,
+  /// `en_US.UTF-8` or a bare `en` — so either separator is accepted and the
+  /// encoding tail is ignored.
+  static final RegExp _localeRegex = RegExp(r'^([A-Za-z]{2,3})(?:[_-]([A-Za-z]{2}))?');
+
+  /// The App Store storefront to look the app up in, taken from the device.
+  ///
+  /// `null` when the OS reports no region, which leaves the lookup on Apple's
+  /// default (US) storefront.
+  static String? get _storeCountry =>
+      _localeRegex.firstMatch(Platform.localeName)?.group(2)?.toLowerCase();
+
+  /// The Play Store `hl` value for the device.
+  ///
+  /// Falls back to `en_US` when the locale can't be read, since the scraping
+  /// patterns below are matched against Google's rendered page.
+  static String get _playStoreLanguage {
+    final match = _localeRegex.firstMatch(Platform.localeName);
+    if (match == null) return 'en_US';
+
+    final language = match.group(1)!.toLowerCase();
+    final region = match.group(2);
+
+    return region == null ? language : '${language}_${region.toUpperCase()}';
+  }
+
 
   static Future<Map<String, dynamic>?> getAppInfo({
     required String bundleId,
     required String packageName,
-    String? iOSAppStoreCountry,
-    String? androidPlayStoreCountry,
     bool androidHtmlReleaseNotes = false,
   }) async {
 
     if (Platform.isIOS) {
-      return _appStoreVersion(
-        bundleId: bundleId,
-        iOSAppStoreCountry: iOSAppStoreCountry
-      );
+      return _appStoreVersion(bundleId: bundleId);
     }
 
     if (Platform.isAndroid) {
       return _payStoreVersion(
         packageName: packageName,
-        androidPlayStoreCountry: androidPlayStoreCountry,
         androidHtmlReleaseNotes: androidHtmlReleaseNotes,
       );
     }
@@ -46,13 +68,14 @@ class NetworkManager {
   /// Fetches iOS App Store version info using the iTunes Lookup API.
   static Future<Map<String, dynamic>?> _appStoreVersion({
     required String bundleId,
-    String? iOSAppStoreCountry,
   }) async {
     try {
+      final country = _storeCountry;
+
       final params = <String, String>{
         'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
         if (bundleId.contains('.')) 'bundleId': bundleId else 'id': bundleId,
-        if (iOSAppStoreCountry != null) 'country': iOSAppStoreCountry,
+        if (country != null) 'country': country,
       };
 
       final uri = Uri.https('itunes.apple.com', '/lookup', params);
@@ -94,7 +117,6 @@ class NetworkManager {
   /// Fetches Android app version by parsing the Google Play Store page.
   static Future<Map<String, dynamic>?> _payStoreVersion({
     required String packageName,
-    String? androidPlayStoreCountry,
     required bool androidHtmlReleaseNotes,
   }) async {
     try {
@@ -103,7 +125,7 @@ class NetworkManager {
         "/store/apps/details",
         {
           "id": packageName,
-          "hl": androidPlayStoreCountry ?? "en_US",
+          "hl": _playStoreLanguage,
           "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
         },
       );

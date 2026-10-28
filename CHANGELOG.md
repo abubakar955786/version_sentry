@@ -27,9 +27,11 @@
   Android `minSdk 21`, Dart `3.6.0` and Flutter `3.27.0`.
 - `autoUpdate` defaults to `true`, so on Android the Update button now downloads in-app rather than
   opening the store page. Pass `autoUpdate: false` for the 1.x behaviour.
-- **`VersionSentryWidget` was cut back to ten parameters.** It now takes `child`, `autoUpdate`,
-  `showMajorUpdate`, `showMinorUpdate`, `showPatchUpdate`, `reminderEvery`, `majorReleaseNote`,
-  `minorReleaseNote`, `iOSAppStoreCountry` and `androidPlayStoreCountry` — nothing else.
+- **`VersionSentryWidget` was cut back to eight parameters.** It now takes `child`, `autoUpdate`,
+  `showMajorUpdate`, `showMinorUpdate`, `showPatchUpdate`, `minorUpdateReminder`, `majorReleaseNote` and
+  `minorReleaseNote` — nothing else.
+- **`reminderEvery` is renamed `minorUpdateReminder`**, and is no longer nullable — it defaults to
+  12 hours. The name now says which prompts it throttles: minor and patch, never major.
 - `showPatchAndMinorUpdate` is replaced by `showMinorUpdate` / `showPatchUpdate`. **Patch updates no
   longer prompt by default** — set `showPatchUpdate: true` to restore that.
 - All styling parameters were removed: `titleStyle`, `releaseNotesTextStyle`, `backgroundColor`,
@@ -39,6 +41,11 @@
   removed in favour of the `majorReleaseNote` / `minorReleaseNote` strings.
 - `packageName`, `bundleId` and `androidHtmlReleaseNotes` were removed from the widget. They remain
   on `VersionSentry.versionSentryInfo()`.
+- **`iOSAppStoreCountry` and `androidPlayStoreCountry` were removed**, from both the widget and
+  `VersionSentry.versionSentryInfo()`. The storefront and page language now come from the device's
+  own locale (`Platform.localeName`): the region subtag becomes the App Store `country`, and the full
+  locale becomes the Play Store `hl`. A device reporting no region keeps Apple's default storefront,
+  and an unreadable locale falls back to `en_US` on Play.
 - `VersionSentryWidget` no longer wraps `child` in its own `Scaffold`, which previously nested a
   second one inside your app.
 - `VersionSentryMajorUpdateScreen` and the bottom sheet now take a single

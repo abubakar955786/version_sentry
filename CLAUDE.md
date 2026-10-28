@@ -93,7 +93,7 @@ Four layers, each usable on its own:
   rather than falling through to a smaller type.
 - **Reminder throttling** lives in `VersionSentryWidget`, not in `VersionSentry`: a single
   `SharedPreferences` int key `version_sentry_current_date_time` holds the last-shown timestamp, gated
-  by `reminderEvery`. Major updates deliberately ignore this gate.
+  by `minorUpdateReminder`. Major updates deliberately ignore this gate.
 - **The library file exports nothing.** `lib/version_sentry.dart` declares `library version_sentry` and
   only defines the `VersionSentry` class, so consumers import deep paths
   (`package:version_sentry/version_sentry_info.dart`,

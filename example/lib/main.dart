@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:version_sentry/auto_update/version_sentry_auto_update.dart';
 import 'package:version_sentry/auto_update/version_sentry_update_progress.dart';
@@ -61,12 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
       showMinorUpdate: true,
       showPatchUpdate: false,
 
-      reminderEvery: const Duration(hours: 12),
+      minorUpdateReminder: const Duration(hours: 12),
 
       // majorReleaseNote: 'This update is required to keep using the app.',
       // minorReleaseNote: 'A new version is available.',
-      // iOSAppStoreCountry: 'in',
-      // androidPlayStoreCountry: 'en_IN',
 
       child: Scaffold(
         appBar: AppBar(
