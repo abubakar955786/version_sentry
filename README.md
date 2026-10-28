@@ -55,21 +55,24 @@ number wins, and you get one prompt, never three.
 
 `VersionSentryWidget` picks the prompt from the update type:
 
-| Update type | Default prompt                          | Flag                | Default |
-|-------------|-----------------------------------------|---------------------|---------|
+| Update type | Default prompt                            | Flag              | Default |
+|-------------|-------------------------------------------|-------------------|---------|
 | **major**   | Blocking full-screen, cannot be dismissed | `showMajorUpdate` | `true`  |
-| **minor**   | Dismissible bottom sheet                | `showMinorUpdate`   | `true`  |
-| **patch**   | Nothing at all                          | `showPatchUpdate`   | `false` |
+| **minor**   | Dismissible bottom sheet                  | `showMinorUpdate` | `true`  |
+| **patch**   | Compact bottom sheet, off by default      | `showPatchUpdate` | `false` |
 
 Patch updates are silent by default — a bug-fix release rarely justifies interrupting someone. Turn
-`showPatchUpdate: true` on if you want the bottom sheet for those too.
+`showPatchUpdate: true` on to get the patch sheet, which is a deliberately lighter prompt than the
+minor one: the title and version pair sit on a single row, and dismissing is a plain `Later` button.
 
 Setting a flag to `false` means **no prompt for that update type**, not "fall back to a smaller one".
 A major update with `showMajorUpdate: false` shows nothing.
 
-> **Upgrading from 1.x:** `showPatchAndMinorUpdate` controlled minor and patch together. It is now
-> deprecated and split into `showMinorUpdate` and `showPatchUpdate`. The old flag still works and
-> applies to both.
+These flags gate the built-in prompts. To show your own UI instead, pass `onMajorUpdate`,
+`onMinorUpdate` or `onPatchUpdate` — see [Your own UI](#your-own-ui).
+
+> **Upgrading from 1.x:** `showPatchAndMinorUpdate` controlled minor and patch together. It is
+> replaced by `showMinorUpdate` and `showPatchUpdate`; the old flag was removed in 2.0.0.
 
 -----
 
@@ -113,27 +116,110 @@ That's the whole widget API. Every parameter is optional except `child`:
 | `showPatchUpdate`         | `false`    | Same sheet, for patch releases                           |
 | `minorUpdateReminder`     | `12 hours` | Throttle for minor and patch prompts only                |
 | `majorReleaseNote`        | built-in   | Message on the major-update screen                       |
-| `minorReleaseNote`        | built-in   | Message on the minor and patch sheets                    |
+| `minorReleaseNote`        | built-in   | Message on the minor-update sheet                        |
+| `patchReleaseNote`        | built-in   | Message on the patch-update sheet                        |
+| `onMajorUpdate`           | `null`     | Your own major prompt, instead of the built-in screen    |
+| `onMinorUpdate`           | `null`     | Your own minor prompt, instead of the built-in sheet     |
+| `onPatchUpdate`           | `null`     | Your own patch prompt, instead of the built-in sheet     |
 
 ### Release notes
 
-Both prompts ship with a sensible default message, so you don't have to pass anything. Override
-either one to match your tone:
+Each prompt ships with a sensible default message, so you don't have to pass anything. Override any
+of the three to match your tone:
 
 ```dart
 VersionSentryWidget(
   majorReleaseNote: 'This version is required to keep using the app.',
   minorReleaseNote: 'New features are waiting — update when you get a moment.',
+  patchReleaseNote: 'A few fixes are ready. This one is quick.',
   child: const MyApp(),
 )
 ```
 
-`minorReleaseNote` covers patch prompts too, since they share the same sheet. The prompts show these
-fixed messages rather than the store's own release notes, which keeps the wording under your control;
-the store's notes are still available from `VersionSentryInfo.releaseNotes` if you want them.
+One note per update type: major, minor and patch each have their own. The prompts show these fixed
+messages rather than the store's own release notes, which keeps the wording under your control; the
+store's notes are still available from `VersionSentryInfo.releaseNotes` if you want them.
 
 The built-in screens take their colours, fonts and icon from your app's `Theme`, so they match
 without any configuration.
+
+### Your own UI
+
+**If `onMajorUpdate`, `onMinorUpdate` or `onPatchUpdate` is not null, the built-in UI for that type is
+never shown.** The callback is yours to handle however you want, and it does **not** depend on
+`showMajorUpdate`, `showMinorUpdate` or `showPatchUpdate` — those three flags only control the
+built-in screens that ship with the package.
+
+So `showPatchUpdate: false` with an `onPatchUpdate` handler still calls your handler: the flag
+switched off *our* patch sheet, not your code.
+
+Each handler hands you a `BuildContext` and a `VersionSentryUpdateRequest`, and you present it however
+you like — push a route, open a bottom sheet, show a dialog:
+
+```dart
+import 'package:version_sentry/version_sentry_widget/version_sentry_update_request.dart';
+
+VersionSentryWidget(
+  /// A blocking route of your own.
+  onMajorUpdate: (context, request) => Navigator.of(context).push(
+    MaterialPageRoute(builder: (_) => MyForcedUpdateScreen(request: request)),
+  ),
+
+  /// Your own sheet.
+  onMinorUpdate: (context, request) => showModalBottomSheet(
+    context: context,
+    builder: (_) => MyUpdateSheet(request: request),
+  ),
+
+  /// Patch updates are silent by default — a handler still reaches you.
+  onPatchUpdate: (context, request) => ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('Version ${request.info.storeVersion} is available')),
+  ),
+
+  child: const MyApp(),
+)
+```
+
+The request carries everything the built-in screens use:
+
+| On the request        | What it is                                                          |
+|-----------------------|---------------------------------------------------------------------|
+| `info`                | The full `VersionSentryInfo`: both versions, flags, store URL        |
+| `releaseNote`         | The major, minor or patch release note, picked for this type         |
+| `onUpdate()`          | Starts the in-app download, or opens the store page                  |
+| `onInstall()`         | Applies a finished download and restarts the app (Android)           |
+| `onDismiss()`         | Closes the prompt. A no-op for major updates, which are mandatory    |
+| `progress`            | Latest download tick, or `null` when nothing is running              |
+| `isBusy`              | A download or install is running, so your button should be disabled  |
+| `isReadyToInstall`    | The download finished — call `onInstall()` instead of `onUpdate()`   |
+| `percent`             | Download percentage, or `null` when indeterminate                    |
+
+`progress` on the request you're handed is a snapshot. To follow a download live, wrap your widget in
+`VersionSentryProgressBuilder` and it is rebuilt on every tick:
+
+```dart
+onMinorUpdate: (context, request) => showModalBottomSheet(
+  context: context,
+  builder: (_) => VersionSentryProgressBuilder(
+    request: request,
+    builder: (context, request) => MyUpdateSheet(request: request),
+  ),
+),
+```
+
+The full matrix, per update type:
+
+| Handler  | Flag    | Result                            |
+|----------|---------|-----------------------------------|
+| set      | `true`  | Your UI                           |
+| set      | `false` | Your UI                           |
+| `null`   | `true`  | The built-in screen               |
+| `null`   | `false` | Nothing is shown                  |
+
+Two rules carry over unchanged: the largest moved number still wins, so a 1.0.0 -> 2.1.1 release
+calls `onMajorUpdate` only; and `minorUpdateReminder` still throttles minor and patch handlers, so
+yours fires at most once per interval. Pass `Duration.zero` to be called on every launch. Major
+handlers are never throttled.
 
 -----
 
@@ -261,6 +347,10 @@ void main() async {
 
 `minorUpdateReminder` (default 12 hours) throttles **minor and patch prompts only**, using a single
 `SharedPreferences` timestamp. Major updates are mandatory, so they prompt on every launch regardless.
+
+It applies to `onMinorUpdate` and `onPatchUpdate` handlers as well, so a custom prompt is throttled
+the same way the built-in sheet is. Pass `Duration.zero` if you want to be called on every launch and
+handle the cadence yourself.
 
 -----
 

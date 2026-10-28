@@ -24,6 +24,17 @@ typedef VersionSentryUpdateBuilder = Widget Function(
   VersionSentryUpdateRequest request,
 );
 
+/// Shows your own prompt for one update type.
+///
+/// You own the presentation: push a route, open a bottom sheet, show a dialog,
+/// or render nothing at all. [request] carries the version pair, the release
+/// note and the `onUpdate` / `onInstall` / `onDismiss` callbacks, so a custom
+/// screen drives the same update flow the built-in ones do.
+typedef VersionSentryUpdateHandler = void Function(
+  BuildContext context,
+  VersionSentryUpdateRequest request,
+);
+
 /// The state of one update prompt, handed to the built-in screens.
 class VersionSentryUpdateRequest {
   /// Which number in the version moved.

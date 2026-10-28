@@ -51,8 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    /// Wraps the app and prompts on its own:
-    ///   major -> blocking full-screen, minor -> bottom sheet, patch -> silent.
+    /// Wraps the app and prompts on its own: major -> blocking full-screen,
+    /// minor -> bottom sheet, patch -> compact sheet, off by default.
     return VersionSentryWidget(
       autoUpdate: true,
 
@@ -62,8 +62,62 @@ class _MyHomePageState extends State<MyHomePage> {
 
       minorUpdateReminder: const Duration(hours: 12),
 
+      /// One release note per update type, each with a built-in default. Pass
+      /// them only to match your own tone. They replace the store's own notes,
+      /// which stay available on VersionSentryInfo.releaseNotes.
       // majorReleaseNote: 'This update is required to keep using the app.',
       // minorReleaseNote: 'A new version is available.',
+      // patchReleaseNote: 'A few fixes are ready. This one is quick.',
+
+      /// Handlers show your own UI instead of a built-in screen.
+      ///
+      /// A handler takes over outright: the built-in screen is never shown, and
+      /// the show* flag above stops applying to that type — the flags only gate
+      /// the built-in screens. So onPatchUpdate below still fires even with
+      /// showPatchUpdate: false.
+      ///
+      /// `request` carries both versions, the release note for this type, and
+      /// onUpdate / onInstall / onDismiss, so your screen drives the same flow
+      /// the built-in ones do. `request.progress` is a snapshot — wrap your
+      /// widget in VersionSentryProgressBuilder (imported from
+      /// version_sentry_widget/version_sentry_progress_builder.dart) to be
+      /// rebuilt on every download tick.
+      ///
+      /// Major: your own blocking route. Nothing dismisses it for you —
+      /// request.onDismiss is a no-op for this type.
+      // onMajorUpdate: (context, request) => Navigator.of(context).push(
+      //   MaterialPageRoute<void>(
+      //     builder: (_) => VersionSentryProgressBuilder(
+      //       request: request,
+      //       builder: (context, request) =>
+      //           MyForcedUpdateScreen(request: request),
+      //     ),
+      //   ),
+      // ),
+      ///
+      /// Minor: your own sheet. Still throttled by minorUpdateReminder, so it
+      /// fires at most once per interval — pass Duration.zero to be called on
+      /// every launch and pace it yourself.
+      // onMinorUpdate: (context, request) => showModalBottomSheet<void>(
+      //   context: context,
+      //   builder: (_) => VersionSentryProgressBuilder(
+      //     request: request,
+      //     builder: (context, request) => MyUpdateSheet(request: request),
+      //   ),
+      // ),
+      ///
+      /// Patch: anything you like, down to a snackbar. Throttled like minor.
+      // onPatchUpdate: (context, request) =>
+      //     ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Version ${request.info.storeVersion} is available'),
+      //     action: SnackBarAction(
+      //       label: 'Update',
+      //       onPressed: request.onUpdate,
+      //     ),
+      //   ),
+      // ),
+
 
       child: Scaffold(
         appBar: AppBar(

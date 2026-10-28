@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:version_sentry/version_sentry_info.dart';
+import 'package:version_sentry/auto_update/version_sentry_update_progress.dart';
 import 'package:version_sentry/version_sentry_widget/button_widget.dart';
+import 'package:version_sentry/version_sentry_widget/patch_bottom_sheet.dart';
+import 'package:version_sentry/version_sentry_widget/version_sentry_update_request.dart';
 
 VersionSentryInfo buildInfo({
   bool needsUpdate = true,
@@ -22,6 +25,23 @@ VersionSentryInfo buildInfo({
     packageName: 'com.example.example',
     bundleId: 'com.example.example',
     storeUrl: 'https://play.google.com/store/apps/details?id=com.example.example',
+  );
+}
+
+VersionSentryUpdateRequest buildPatchRequest({
+  VersionSentryUpdateProgress? progress,
+  VoidCallback? onDismiss,
+  Future<void> Function()? onUpdate,
+  Future<void> Function()? onInstall,
+}) {
+  return VersionSentryUpdateRequest(
+    type: VersionSentryUpdateType.patch,
+    info: buildInfo(isPatchUpdate: true),
+    releaseNote: 'A few fixes are ready.',
+    progress: progress,
+    onUpdate: onUpdate ?? () async {},
+    onInstall: onInstall ?? () async {},
+    onDismiss: onDismiss ?? () {},
   );
 }
 
@@ -97,6 +117,95 @@ void main() {
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
       expect(button.onPressed, isNull);
       expect(button.enabled, isFalse);
+    });
+  });
+
+  group('VersionSentryPatchUpdateSheet', () {
+    Future<void> pumpSheet(
+      WidgetTester tester,
+      VersionSentryUpdateRequest request,
+    ) {
+      return tester.pumpWidget(MaterialApp(
+        home: Scaffold(body: VersionSentryPatchUpdateSheet(request: request)),
+      ));
+    }
+
+    testWidgets('shows the version pair, the note and both actions',
+        (WidgetTester tester) async {
+      await pumpSheet(tester, buildPatchRequest());
+
+      expect(find.text('Small Update Available'), findsOneWidget);
+      expect(find.text('1.0.0  →  2.1.1'), findsOneWidget);
+      expect(find.text('A few fixes are ready.'), findsOneWidget);
+      expect(find.text('Later'), findsOneWidget);
+      expect(find.text('Update'), findsOneWidget);
+    });
+
+    testWidgets('Later reports a dismiss', (WidgetTester tester) async {
+      var dismissed = 0;
+      await pumpSheet(tester, buildPatchRequest(onDismiss: () => dismissed++));
+
+      await tester.tap(find.text('Later'));
+      await tester.pump();
+
+      expect(dismissed, 1);
+    });
+
+    testWidgets('hides the progress view until a tick arrives',
+        (WidgetTester tester) async {
+      await pumpSheet(tester, buildPatchRequest());
+      expect(find.byType(LinearProgressIndicator), findsNothing);
+
+      await pumpSheet(
+        tester,
+        buildPatchRequest(
+          progress: const VersionSentryUpdateProgress(
+            status: VersionSentryUpdateStatus.downloading,
+            bytesDownloaded: 50,
+            totalBytesToDownload: 100,
+          ),
+        ),
+      );
+
+      expect(find.byType(LinearProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets('disables the button while a download runs',
+        (WidgetTester tester) async {
+      await pumpSheet(
+        tester,
+        buildPatchRequest(
+          progress: const VersionSentryUpdateProgress(
+            status: VersionSentryUpdateStatus.downloading,
+          ),
+        ),
+      );
+
+      expect(tester.widget<ElevatedButton>(find.byType(ElevatedButton)).enabled,
+          isFalse);
+    });
+
+    testWidgets('offers Install once the download finished',
+        (WidgetTester tester) async {
+      var installed = 0;
+
+      await pumpSheet(
+        tester,
+        buildPatchRequest(
+          progress: const VersionSentryUpdateProgress(
+            status: VersionSentryUpdateStatus.downloaded,
+          ),
+          onInstall: () async => installed++,
+        ),
+      );
+
+      expect(find.text('Install'), findsOneWidget);
+      expect(find.text('Update'), findsNothing);
+
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+
+      expect(installed, 1);
     });
   });
 }

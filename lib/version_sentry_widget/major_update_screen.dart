@@ -15,8 +15,7 @@ class VersionSentryMajorUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final titleStyle =
-        theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600);
+    final titleStyle = theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600);
     final progress = request.progress;
 
     /// A major update is mandatory, so the back button must not escape it.
@@ -94,8 +93,7 @@ class VersionSentryMajorUpdateScreen extends StatelessWidget {
                               : (request.isReadyToInstall
                                   ? request.onInstall
                                   : request.onUpdate),
-                          buttonText:
-                              request.isReadyToInstall ? 'Install' : 'Update',
+                          buttonText: request.isReadyToInstall ? 'Install' : 'Update',
                         ),
                       ),
                       const SizedBox(height: 20),

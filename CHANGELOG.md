@@ -8,8 +8,19 @@
   the download percentage, plus `completeInstall()` to apply a finished download.
 - `showMinorUpdate` and `showPatchUpdate`, replacing the combined flag. Patch updates are now silent
   by default; minor updates still show the bottom sheet.
-- `majorReleaseNote` and `minorReleaseNote`, each with a built-in default message.
+- `majorReleaseNote`, `minorReleaseNote` and `patchReleaseNote`, one per update type, each with a
+  built-in default message.
+- **A dedicated patch sheet**, `VersionSentryPatchUpdateSheet`. Patch releases no longer reuse the
+  minor sheet: the new one is compact — title and version pair on one row, a plain `Later` button —
+  since a bug-fix release rarely earns a full-width interruption. Still off by default
+  (`showPatchUpdate: false`), and it drives the same update flow.
 - The built-in screens now show a download progress bar and the current version pair.
+- **`onMajorUpdate`, `onMinorUpdate` and `onPatchUpdate`** on `VersionSentryWidget`, for showing your
+  own prompt instead of a built-in screen. Each is handed a `BuildContext` and the same
+  `VersionSentryUpdateRequest` the built-in screens use, so a custom screen drives the same flow.
+  A handler replaces the built-in screen outright and the matching `show*` flag no longer applies —
+  the flags only gate the built-in screens. `minorUpdateReminder` still throttles minor and patch
+  handlers; major handlers fire on every launch.
 
 ### Fixed
 - `showMajorUpdate` and `showPatchAndMinorUpdate` were accepted but never read, so both prompts
@@ -27,9 +38,10 @@
   Android `minSdk 21`, Dart `3.6.0` and Flutter `3.27.0`.
 - `autoUpdate` defaults to `true`, so on Android the Update button now downloads in-app rather than
   opening the store page. Pass `autoUpdate: false` for the 1.x behaviour.
-- **`VersionSentryWidget` was cut back to eight parameters.** It now takes `child`, `autoUpdate`,
-  `showMajorUpdate`, `showMinorUpdate`, `showPatchUpdate`, `minorUpdateReminder`, `majorReleaseNote` and
-  `minorReleaseNote` — nothing else.
+- **`VersionSentryWidget` was cut back to twelve parameters.** It now takes `child`, `autoUpdate`,
+  `showMajorUpdate`, `showMinorUpdate`, `showPatchUpdate`, `minorUpdateReminder`, `majorReleaseNote`,
+  `minorReleaseNote`, `patchReleaseNote`, `onMajorUpdate`, `onMinorUpdate` and `onPatchUpdate` —
+  nothing else. All the styling parameters are gone; custom UI goes through the three handlers.
 - **`reminderEvery` is renamed `minorUpdateReminder`**, and is no longer nullable — it defaults to
   12 hours. The name now says which prompts it throttles: minor and patch, never major.
 - `showPatchAndMinorUpdate` is replaced by `showMinorUpdate` / `showPatchUpdate`. **Patch updates no

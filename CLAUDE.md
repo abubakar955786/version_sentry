@@ -62,13 +62,17 @@ Four layers, each usable on its own:
 4. **`lib/version_sentry_widget/`** — the drop-in UI. `VersionSentryWidget` renders `child` unchanged
    and, in a post-frame callback, runs the check and picks one prompt:
    - **major** → a pushed route holding the blocking `VersionSentryMajorUpdateScreen`
-   - **minor / patch** → `showModalBottomSheet` holding `VersionSentryUpdateSheet`
+   - **minor** → `showModalBottomSheet` holding `VersionSentryUpdateSheet`
+   - **patch** → the same sheet opener holding the lighter `VersionSentryPatchUpdateSheet`
    - Both screens sit inside `VersionSentryProgressBuilder`, a `StreamBuilder` over
      `request.progressStream` that re-runs the build with `request.copyWith(progress: …)`.
-   - `VersionSentryWidget` is deliberately a ten-parameter API with no styling hooks and no builder
-     or callback overrides — the screens read the host app's `Theme`, and the two release-note
-     strings are the only text knobs. Resist re-adding customisation parameters; that was tried and
-     cut back on purpose.
+   - `VersionSentryWidget` has no styling hooks — the screens read the host app's `Theme`, and the
+     two release-note strings are the only text knobs. Resist re-adding per-colour/per-style
+     parameters; that was tried and cut back on purpose. Customisation goes through
+     `onMajorUpdate` / `onMinorUpdate` / `onPatchUpdate` instead: a handler is handed the
+     `VersionSentryUpdateRequest` and replaces that type's built-in screen outright, so the
+     `show*` flag for it no longer applies — the flags gate only the built-in screens. The
+     largest-bump rule and `minorUpdateReminder` still apply to handlers (major excepted).
 
 ### Things worth knowing before editing
 
@@ -103,11 +107,13 @@ Four layers, each usable on its own:
 - **`VersionSentryUpdateRequest` is internal plumbing**, not a public extension point: it bundles
   what the two built-in screens need. It carries a `progress` snapshot plus the `progressStream`
   behind it, and `copyWith` exists only to refresh that snapshot.
-- **The widget never shows the store's release notes.** It shows `majorReleaseNote` or
-  `minorReleaseNote` (which also covers patch). `VersionSentryInfo.releaseNotes` still carries the
-  scraped notes for programmatic use.
+- **The widget never shows the store's release notes.** It shows `majorReleaseNote`,
+  `minorReleaseNote` or `patchReleaseNote` — one per update type.
+  `VersionSentryInfo.releaseNotes` still carries the scraped notes for programmatic use.
 - **Tests cover only what runs without a device:** `VersionSentryInfo` serialization and update-type
-  precedence, the status/percentage model, and `VersionSentryButtonWidget`.
+  precedence, the status/percentage model, `VersionSentryButtonWidget` and
+  `VersionSentryPatchUpdateSheet`. The widget's own handler/flag routing isn't covered — it sits
+  behind `VersionSentry.versionSentryInfo()`, which throws on the host VM.
   `VersionSentry.versionSentryInfo()` throws on the host VM (neither Android nor iOS) and the method
   channels aren't registered there, so neither can be unit-tested as written — verify on a device.
 - **Build artifacts are committed** (14 files under `build/ios/XCBuildData/` and `.dart_tool/`) and
